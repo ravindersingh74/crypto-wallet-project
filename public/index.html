@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Crypto Wallet - Simple & Secure Digital Assets</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="/" class="nav-brand">
+      🪙 Crypto Wallet
+    </a>
+    <ul class="nav-links">
+      <li><a href="/" class="active">Home</a></li>
+      
+      <!-- Guest Links -->
+      <div id="nav-guest-container" style="display: flex; gap: 1rem;">
+        <li><a href="/login">Login</a></li>
+        <li><a href="/register" class="btn btn-primary" style="color: white; padding: 0.3rem 0.8rem;">Register</a></li>
+      </div>
+
+      <!-- User Links -->
+      <div id="nav-user-container" style="display: none; gap: 1rem; align-items: center;">
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li><a href="/send">Send</a></li>
+        <li><a href="/receive">Receive</a></li>
+        <li><a href="/history">History</a></li>
+        <li><span id="nav-username" style="font-weight: 600; color: var(--primary-color);"></span></li>
+        <li><button onclick="Auth.logout()" class="btn-logout">Logout</button></li>
+      </div>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="card" style="text-align: center; padding: 3rem 1.5rem;">
+      <h1 style="font-size: 2.2rem; margin-bottom: 1rem; color: var(--text-main);">Simple & Secure Crypto Wallet</h1>
+      <p style="font-size: 1.1rem; color: var(--text-muted); max-width: 650px; margin: 0 auto 2rem auto;">
+        Manage simulated BTC, ETH, and Test Tokens safely. Experience full crypto transfers, QR code receipts, and transaction history in a risk-free full-stack sandbox environment.
+      </p>
+
+      <div class="btn-group" style="justify-content: center; gap: 1rem;">
+        <a href="/register" class="btn btn-primary" style="padding: 0.8rem 1.8rem; font-size: 1.05rem;">Create New Wallet</a>
+        <a href="/login" class="btn btn-outline" style="padding: 0.8rem 1.8rem; font-size: 1.05rem;">Access Existing Wallet</a>
+      </div>
+    </div>
+
+    <!-- Features Overview -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem;">
+      <div class="card">
+        <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem;">🔒 Secure Authentication</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          User accounts use bcrypt password hashing and JWT sessions. Each user is automatically assigned a unique crypto wallet address and 12-word recovery seed phrase.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem;">💸 Send & Receive Crypto</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Instantly transfer BTC, ETH, or TST tokens to any wallet address. Includes network fee calculations, recipient validation, and instant balance updates.
+        </p>
+      </div>
+
+      <div class="card">
+        <h3 style="margin-bottom: 0.5rem; font-size: 1.1rem;">📊 Real-time Ledger & Faucet</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem;">
+          Track every transaction hash in a persistent ledger. Need more test funds? Use the built-in testnet faucet dispenser at any time.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Crypto Wallet Sandbox. Built with Node.js, Express, MongoDB & Vanilla Web Standards.</p>
+  </footer>
+
+  <script src="/js/auth.js"></script>
+</body>
+</html>

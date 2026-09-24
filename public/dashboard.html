@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Crypto Wallet</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="/" class="nav-brand">🪙 Crypto Wallet</a>
+    <ul class="nav-links">
+      <li><a href="/dashboard" class="active">Dashboard</a></li>
+      <li><a href="/send">Send</a></li>
+      <li><a href="/receive">Receive</a></li>
+      <li><a href="/history">History</a></li>
+      <li><span id="nav-username" style="font-weight: 600; color: var(--primary-color);"></span></li>
+      <li><button onclick="Auth.logout()" class="btn-logout">Logout</button></li>
+    </ul>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="container">
+    <!-- Wallet Overview Card -->
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 600;">ESTIMATED TOTAL BALANCE</span>
+          <h1 id="total-usd" style="font-size: 2.2rem; color: var(--text-main); margin-top: 0.2rem;">$0.00</h1>
+        </div>
+
+        <div class="btn-group">
+          <a href="/send" class="btn btn-primary">↗ Send Crypto</a>
+          <a href="/receive" class="btn btn-success">↙ Receive / Faucet</a>
+        </div>
+      </div>
+
+      <div style="margin-top: 1.5rem;">
+        <label style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); display: block; margin-bottom: 0.3rem;">YOUR WALLET ADDRESS</label>
+        <div class="address-box">
+          <span id="user-wallet-address">Loading address...</span>
+          <button class="copy-btn" onclick="Wallet.copyAddress(document.getElementById('user-wallet-address').textContent, this)">Copy</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Supported Assets Grid -->
+    <h2 style="font-size: 1.2rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main);">Supported Crypto Assets</h2>
+    <div class="asset-grid">
+      <!-- BTC Card -->
+      <div class="asset-card">
+        <div class="asset-header">
+          <span class="asset-symbol">🟠 BTC</span>
+          <span class="asset-name">Bitcoin</span>
+        </div>
+        <div id="btc-balance" class="asset-amount">0.00 BTC</div>
+        <div id="btc-val" class="asset-value">$0.00 USD</div>
+      </div>
+
+      <!-- ETH Card -->
+      <div class="asset-card">
+        <div class="asset-header">
+          <span class="asset-symbol">🔷 ETH</span>
+          <span class="asset-name">Ethereum</span>
+        </div>
+        <div id="eth-balance" class="asset-amount">0.00 ETH</div>
+        <div id="eth-val" class="asset-value">$0.00 USD</div>
+      </div>
+
+      <!-- TST Card -->
+      <div class="asset-card">
+        <div class="asset-header">
+          <span class="asset-symbol">⚡ TST</span>
+          <span class="asset-name">Test Token</span>
+        </div>
+        <div id="tst-balance" class="asset-amount">0.00 TST</div>
+        <div id="tst-val" class="asset-value">$0.00 USD</div>
+      </div>
+    </div>
+
+    <!-- Recent Transactions Card -->
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <h3 style="font-size: 1.1rem; font-weight: 600;">Recent Transactions</h3>
+        <a href="/history" style="font-size: 0.9rem; color: var(--primary-color); font-weight: 600; text-decoration: none;">View All History &rarr;</a>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Tx Hash</th>
+              <th>Type</th>
+              <th>Amount</th>
+              <th>Address</th>
+              <th>Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="recent-tx-table-body">
+            <tr>
+              <td colspan="6" style="text-align: center; color: var(--text-muted);">Loading transactions...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Crypto Wallet Sandbox.</p>
+  </footer>
+
+  <script src="/js/auth.js"></script>
+  <script src="/js/wallet.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Wallet.initDashboard();
+    });
+  </script>
+</body>
+</html>

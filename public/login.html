@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Crypto Wallet</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="/" class="nav-brand">🪙 Crypto Wallet</a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/login" class="active">Login</a></li>
+      <li><a href="/register" class="btn btn-primary" style="color: white; padding: 0.3rem 0.8rem;">Register</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container" style="max-width: 480px;">
+    <div class="card">
+      <h2 class="card-title">Access Your Wallet</h2>
+
+      <div id="login-alert" class="alert alert-danger" style="display: none;"></div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" class="form-control" placeholder="user@example.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" class="form-control" placeholder="Enter your password" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem;">Login to Wallet</button>
+      </form>
+
+      <p style="margin-top: 1.2rem; font-size: 0.9rem; text-align: center; color: var(--text-muted);">
+        Don't have a wallet yet? <a href="/register" style="color: var(--primary-color); font-weight: 600;">Create One Here</a>
+      </p>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Crypto Wallet Sandbox.</p>
+  </footer>
+
+  <script src="/js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Auth.requireGuest();
+
+      const form = document.getElementById('login-form');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const alertBox = document.getElementById('login-alert');
+        alertBox.style.display = 'none';
+
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        try {
+          const res = await fetch('/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+          });
+
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || 'Login failed.');
+
+          Auth.setToken(data.token);
+          Auth.setUser(data.user);
+          window.location.href = '/dashboard';
+
+        } catch (err) {
+          alertBox.textContent = err.message;
+          alertBox.style.display = 'block';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

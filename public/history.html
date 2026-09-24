@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transaction History - Crypto Wallet</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="/" class="nav-brand">🪙 Crypto Wallet</a>
+    <ul class="nav-links">
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/send">Send</a></li>
+      <li><a href="/receive">Receive</a></li>
+      <li><a href="/history" class="active">History</a></li>
+      <li><span id="nav-username" style="font-weight: 600; color: var(--primary-color);"></span></li>
+      <li><button onclick="Auth.logout()" class="btn-logout">Logout</button></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container">
+    <div class="card">
+      <h2 class="card-title">📜 Full Transaction History</h2>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.2rem;">
+        Complete, immutable record of all incoming, outgoing, and faucet transactions for your wallet address.
+      </p>
+
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Tx Hash</th>
+              <th>Type</th>
+              <th>Amount</th>
+              <th>Sender</th>
+              <th>Recipient</th>
+              <th>Fee</th>
+              <th>Date & Time</th>
+            </tr>
+          </thead>
+          <tbody id="full-history-table-body">
+            <tr>
+              <td colspan="7" style="text-align: center; color: var(--text-muted);">Loading complete transaction ledger...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Crypto Wallet Sandbox.</p>
+  </footer>
+
+  <script src="/js/auth.js"></script>
+  <script src="/js/wallet.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Wallet.initHistoryPage();
+    });
+  </script>
+</body>
+</html>

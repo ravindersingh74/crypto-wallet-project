@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Send Crypto - Crypto Wallet</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="/" class="nav-brand">🪙 Crypto Wallet</a>
+    <ul class="nav-links">
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/send" class="active">Send</a></li>
+      <li><a href="/receive">Receive</a></li>
+      <li><a href="/history">History</a></li>
+      <li><span id="nav-username" style="font-weight: 600; color: var(--primary-color);"></span></li>
+      <li><button onclick="Auth.logout()" class="btn-logout">Logout</button></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container" style="max-width: 580px;">
+    <div class="card">
+      <h2 class="card-title">↗ Send Cryptocurrency</h2>
+
+      <div id="send-alert" class="alert" style="display: none;"></div>
+
+      <form id="send-crypto-form">
+        <div class="form-group">
+          <label for="assetSelect">Select Asset</label>
+          <select id="assetSelect" class="form-control" required>
+            <option value="ETH" selected>Ethereum (ETH)</option>
+            <option value="BTC">Bitcoin (BTC)</option>
+            <option value="TST">Test Token (TST)</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="recipientAddress">Recipient Wallet Address</label>
+          <input type="text" id="recipientAddress" class="form-control" placeholder="e.g. 0x71C7656EC7ab88b098defB751B7401B5f6d8976F" required>
+        </div>
+
+        <div class="form-group">
+          <label for="amountInput">Amount</label>
+          <input type="number" id="amountInput" class="form-control" step="0.0001" min="0.0001" placeholder="0.1" required>
+        </div>
+
+        <div class="form-group">
+          <label for="memoInput">Optional Memo / Note</label>
+          <input type="text" id="memoInput" class="form-control" placeholder="Payment for service / test transfer">
+        </div>
+
+        <div style="background: #f8fafc; border: 1px solid var(--border-color); padding: 0.8rem; border-radius: 6px; margin-bottom: 1.2rem; font-size: 0.85rem; color: var(--text-muted);">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.2rem;">
+            <span>Estimated Network Fee:</span>
+            <strong id="fee-display">0.0002 ETH</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span>Transaction Time:</span>
+            <strong>Instant (Simulated Block)</strong>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.8rem;">Send Cryptocurrency</button>
+      </form>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Crypto Wallet Sandbox.</p>
+  </footer>
+
+  <script src="/js/auth.js"></script>
+  <script src="/js/wallet.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Wallet.initSendPage();
+
+      const assetSelect = document.getElementById('assetSelect');
+      const feeDisplay = document.getElementById('fee-display');
+
+      assetSelect.addEventListener('change', () => {
+        const val = assetSelect.value;
+        if (val === 'TST') {
+          feeDisplay.textContent = '0.5 TST';
+        } else {
+          feeDisplay.textContent = `0.0002 ${val}`;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

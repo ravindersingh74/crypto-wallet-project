@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register - Crypto Wallet</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="/" class="nav-brand">🪙 Crypto Wallet</a>
+    <ul class="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/login">Login</a></li>
+      <li><a href="/register" class="active">Register</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="container" style="max-width: 520px;">
+    <!-- Step 1: Registration Form -->
+    <div id="register-card" class="card">
+      <h2 class="card-title">Create New Crypto Wallet</h2>
+
+      <div id="register-alert" class="alert alert-danger" style="display: none;"></div>
+
+      <form id="register-form">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" class="form-control" placeholder="satoshi123" required minlength="3">
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" class="form-control" placeholder="user@example.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" class="form-control" placeholder="Minimum 6 characters" required minlength="6">
+        </div>
+
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem;">Create Wallet & Seed Phrase</button>
+      </form>
+
+      <p style="margin-top: 1.2rem; font-size: 0.9rem; text-align: center; color: var(--text-muted);">
+        Already have a wallet? <a href="/login" style="color: var(--primary-color); font-weight: 600;">Log In Here</a>
+      </p>
+    </div>
+
+    <!-- Step 2: Seed Phrase Modal Backup Notice -->
+    <div id="seed-card" class="card" style="display: none; border-color: var(--primary-color);">
+      <h2 class="card-title" style="color: var(--primary-color);">🎉 Wallet Created Successfully!</h2>
+      <div class="alert alert-info">
+        <strong>Important:</strong> Please back up your 12-word recovery seed phrase and wallet address below.
+      </div>
+
+      <div class="form-group">
+        <label>Your Crypto Wallet Address</label>
+        <div class="address-box">
+          <span id="created-address">0x...</span>
+          <button class="copy-btn" onclick="Wallet.copyAddress(document.getElementById('created-address').textContent, this)">Copy</button>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>12-Word Recovery Seed Phrase</label>
+        <div class="address-box" style="background: #fffbebfb; border-color: #fcd34d;">
+          <span id="created-seed" style="font-weight: 600; color: #92400e;">...</span>
+          <button class="copy-btn" onclick="Wallet.copyAddress(document.getElementById('created-seed').textContent, this)">Copy</button>
+        </div>
+      </div>
+
+      <button id="go-dashboard-btn" class="btn btn-success" style="width: 100%; padding: 0.75rem; margin-top: 1rem;">
+        I Saved My Seed Phrase - Go to Dashboard &rarr;
+      </button>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 Crypto Wallet Sandbox.</p>
+  </footer>
+
+  <script src="/js/auth.js"></script>
+  <script src="/js/wallet.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Auth.requireGuest();
+
+      const form = document.getElementById('register-form');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const alertBox = document.getElementById('register-alert');
+        alertBox.style.display = 'none';
+
+        const username = document.getElementById('username').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value;
+
+        try {
+          const res = await fetch('/api/auth/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, email, password })
+          });
+
+          const data = await res.json();
+          if (!res.ok) throw new Error(data.error || 'Registration failed.');
+
+          // Save auth token
+          Auth.setToken(data.token);
+          Auth.setUser(data.user);
+
+          // Hide form, display seed card
+          document.getElementById('register-card').style.display = 'none';
+          document.getElementById('created-address').textContent = data.user.walletAddress;
+          document.getElementById('created-seed').textContent = data.user.seedPhrase;
+          document.getElementById('seed-card').style.display = 'block';
+
+        } catch (err) {
+          alertBox.textContent = err.message;
+          alertBox.style.display = 'block';
+        }
+      });
+
+      document.getElementById('go-dashboard-btn').addEventListener('click', () => {
+        window.location.href = '/dashboard';
+      });
+    });
+  </script>
+</body>
+</html>
