@@ -34,23 +34,33 @@ app.get('/history', (req, res) => res.sendFile(path.join(__dirname, 'public', 'h
 
 // Connect to MongoDB (with graceful fallback handling)
 async function connectDatabase() {
-  const mongoURI = process.env.MONGODB_URI || ;
-  
-  try {
-    console.log(`Attempting connection to MongoDB (${mongoURI})...`);
-    await mongoose.connect(mongoURI, { serverSelectionTimeoutMS: 2000 });
-    console.log('Connected to MongoDB database successfully!');
-  } catch (err) {
-    console.warn('Local MongoDB server not detected. Operating with robust in-memory DataStore mode!');
-  }
-}
-if(require.main === module){
+    const mongoURI =
+        process.env.MONGODB_URI ||
+        "mongodb://127.0.0.1:27017/crypto_wallet_db";
 
-connectDatabase().then(() => {
-  app.listen(PORT, () => {
-    console.log(`Crypto Wallet Server running on http://localhost:${PORT}`);
-  });
-});
+    try {
+        console.log("Connecting to MongoDB...");
 
+        await mongoose.connect(mongoURI, {
+            serverSelectionTimeoutMS: 5000
+        });
+
+        console.log("Connected to MongoDB successfully!");
+    } catch (err) {
+        console.error("MongoDB connection failed:", err);
+    }
 }
-module.exports=app;
+
+
+// Start server locally
+if (require.main === module) {
+    connectDatabase().then(() => {
+        app.listen(PORT, () => {
+            console.log(`Crypto Wallet Server running on http://localhost:${PORT}`);
+        });
+    });
+}
+
+
+// Export for Vercel
+module.exports = app;
