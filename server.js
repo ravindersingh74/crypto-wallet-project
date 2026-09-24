@@ -1,11 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 
-// Allow loading node_modules from C:\Users\ACER\crypto_wallet_app\node_modules if running on Google Drive mount
-const externalModulesPath = 'C:\\Users\\ACER\\crypto_wallet_app\\node_modules';
-if (fs.existsSync(externalModulesPath)) {
-  module.paths.unshift(externalModulesPath);
-}
+
 
 const express = require('express');
 const mongoose = require('mongoose');
