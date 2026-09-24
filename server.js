@@ -47,5 +47,8 @@ async function connectDatabase() {
   }
 }
 
-connectDatabase();
-module.exports=app;
+connectDatabase().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Crypto Wallet Server running on http://localhost:${PORT}`);
+  });
+});
