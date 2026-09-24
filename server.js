@@ -1,8 +1,6 @@
 const path = require('path');
 const fs = require('fs');
 
-
-
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -36,7 +34,7 @@ app.get('/history', (req, res) => res.sendFile(path.join(__dirname, 'public', 'h
 
 // Connect to MongoDB (with graceful fallback handling)
 async function connectDatabase() {
-  const mongoURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/crypto_wallet_db';
+  const mongoURI = process.env.MONGODB_URI || ;
   
   try {
     console.log(`Attempting connection to MongoDB (${mongoURI})...`);
