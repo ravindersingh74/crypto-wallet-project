@@ -46,9 +46,13 @@ async function connectDatabase() {
     console.warn('Local MongoDB server not detected. Operating with robust in-memory DataStore mode!');
   }
 }
+if(require.main === module){
 
 connectDatabase().then(() => {
   app.listen(PORT, () => {
     console.log(`Crypto Wallet Server running on http://localhost:${PORT}`);
   });
 });
+
+}
+module.exports=app;
