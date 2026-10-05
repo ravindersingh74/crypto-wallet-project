@@ -1,6 +1,7 @@
 {
   "name": "crypto-wallet-app",
   "version": "1.0.0",
+  "type":"commonjs",
   "description": "A basic full-stack crypto wallet application built with Node.js, Express, MongoDB, and Vanilla HTML/CSS/JS",
   "main": "server.js",
   "scripts": {
