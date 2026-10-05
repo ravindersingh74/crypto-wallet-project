@@ -12,7 +12,7 @@ const walletRoutes = require('./routes/wallet');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+app.use(cors());process.env
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -34,9 +34,11 @@ app.get('/history', (req, res) => res.sendFile(path.join(__dirname, 'public', 'h
 
 // Connect to MongoDB (with graceful fallback handling)
 async function connectDatabase() {
-    const mongoURI =
-        process.env.MONGODB_URI ||
-        "mongodb://127.0.0.1:27017/crypto_wallet_db";
+    const mongoURI = process.env.MONGODB_URI;
+
+    if (!mongoURI) {
+        throw new Error("MONGODB_URI is not configured");
+    }
 
     try {
         console.log("Connecting to MongoDB...");
@@ -48,6 +50,7 @@ async function connectDatabase() {
         console.log("Connected to MongoDB successfully!");
     } catch (err) {
         console.error("MongoDB connection failed:", err);
+        throw err;
     }
 }
 
